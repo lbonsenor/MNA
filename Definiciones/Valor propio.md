@@ -1,0 +1,1 @@
+Es un escalar tal que, al multiplicar la matriz por un [[Vector Propio]], el resultado es simplemente ese mismo vector multiplicado por el escalar. Es decir, cumple la ecuación: $A v = \lambda v$.

@@ -1,0 +1,1 @@
+Es un **subespacio vectorial (un conjunto de vectores)**. Representa a todos los vectores del espacio de llegada que se pueden obtener al aplicarle la [[Transformación Lineal]] $T$ a los vectores del espacio de salida.

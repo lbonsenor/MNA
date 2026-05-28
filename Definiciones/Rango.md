@@ -1,0 +1,1 @@
+Es el número máximo de filas o columnas que son linealmente independientes entre sí. También representa la dimensión de la imagen de la transformación.
