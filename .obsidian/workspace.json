@@ -8,35 +8,20 @@
         "type": "tabs",
         "children": [
           {
-            "id": "01eca94451484318",
+            "id": "2d3e6d99900c8c8f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Definiciones/Descomposición SVD.md",
-                "mode": "source",
-                "source": false
+                "file": "Definiciones/Mínimos Cuadrados.md",
+                "mode": "preview",
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "Descomposición SVD"
-            }
-          },
-          {
-            "id": "8274be082f124c36",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Definiciones/Determinante.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Determinante"
+              "title": "Mínimos Cuadrados"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -210,36 +195,36 @@
       "bases:Create new base": false
     }
   },
-  "active": "8274be082f124c36",
+  "active": "a3158e25c61b125c",
   "lastOpenFiles": [
-    "Definiciones/Diagonalización.md",
-    "Definiciones/Multiplicidad Algebraica.md",
-    "Definiciones/Dimensión.md",
-    "Definiciones/Núcleo.md",
-    "Definiciones/Rango.md",
-    "Definiciones/Matriz Asociada Mixta.md",
-    "Definiciones/Matriz Asociada.md",
-    "Definiciones/Descomposición SVD.md",
-    "Definiciones/Multiplicidad Geométrica.md",
-    "Definiciones/Polinomio Característico.md",
-    "Definiciones/Valor propio.md",
-    "Definiciones/Vector Propio.md",
-    "Definiciones/Norma.md",
+    "machete.tex.md",
+    "Machete.tex",
+    "Machete.md",
     "Definiciones/Mínimos Cuadrados.md",
-    "Definiciones/Matrices Simétricas.md",
-    "Definiciones/Producto Interno.md",
-    "Definiciones/Subespacios Invariantes.md",
-    "Definiciones/Ortogonalidad.md",
+    "Definiciones/Vector Propio.md",
+    "Definiciones/Determinante.md",
+    "Definiciones/Valor propio.md",
+    "Definiciones/Descomposición SVD.md",
     "Definiciones/Imagen.md",
+    "Definiciones/Matriz Asociada Mixta.md",
+    "Definiciones/Dimensión.md",
+    "Definiciones/Transformación Lineal.md",
     "Definiciones/Factorización QR.md",
+    "Definiciones/Ortogonalidad.md",
+    "Definiciones/Polinomio Característico.md",
     "Definiciones/Factorización PLU.md",
     "Definiciones/Factorización LU.md",
-    "Ejercicios/Parciales/2025-Q1/EJ3.md",
-    "Pasted image 20260526120311.png",
-    "Ejercicios/Parciales/2025-Q1/EJ2.md",
-    "Definiciones/Determinante.md",
-    "Pasted image 20260525180342.png",
-    "Ejercicios/Parciales/2025-Q1/EJ1.md",
+    "Definiciones/Diagonalización.md",
+    "Imagenes/Pasted image 20260525180342.png",
+    "Definiciones/Multiplicidad Algebraica.md",
+    "Definiciones/Núcleo.md",
+    "Definiciones/Rango.md",
+    "Definiciones/Matriz Asociada.md",
+    "Definiciones/Multiplicidad Geométrica.md",
+    "Definiciones/Norma.md",
+    "Definiciones/Matrices Simétricas.md",
+    "Definiciones/Producto Interno.md",
+    "Imagenes/Pasted image 20260526120311.png",
     "Imagenes/Regla de Sarrus.png",
     "Imagenes/2025-Q1-EJ1.png",
     "Ejercicios/Parciales/2025-Q1",

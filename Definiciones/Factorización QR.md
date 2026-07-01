@@ -41,11 +41,11 @@ $$Q = \begin{pmatrix} q_1 & q_2 & q_3 & \dots & q_n \end{pmatrix}$$
 La matriz $R$ almacena las relaciones métricas (longitudes y proyecciones) encontradas durante el proceso de Gram-Schmidt. Debido a la forma en que se construyeron los vectores, todos los elementos por debajo de la diagonal principal se vuelven automáticamente cero, resultando en una estructura triangular superior:
 $$R = \begin{pmatrix}
 
-|c_1| & c_2 \cdot q_1 & c_3 \cdot q_1 & \dots & c_n \in q_1 \\
+|c_1| & c_2 \cdot q_1 & c_3 \cdot q_1 & \dots & c_n \cdot q_1 \\
 
-0 & |v_2| & c_3 \cdot q_2 & \dots & c_n \in q_2 \\
+0 & |v_2| & c_3 \cdot q_2 & \dots & c_n \cdot q_2 \\
 
-0 & 0 & |v_3| & \dots & c_n \in q_3 \\
+0 & 0 & |v_3| & \dots & c_n \cdot q_3 \\
 
 \vdots & \vdots & \vdots & \ddots & \vdots \\
 

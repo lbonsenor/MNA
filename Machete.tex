@@ -1,0 +1,595 @@
+\documentclass[10pt]{extarticle}
+\usepackage[a4paper,margin=1.2cm]{geometry}
+\usepackage{multicol}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{parskip}
+
+\setlength{\parindent}{0pt}
+\setlength{\columnsep}{0.6cm}
+
+\titleformat{\section}{\normalfont\bfseries\centering}{}{0pt}{}
+\titlespacing*{\section}{0pt}{6pt}{3pt}
+
+\setlist[enumerate]{leftmargin=1.3em, itemsep=1pt, topsep=1pt, parsep=0pt}
+\setlist[enumerate,2]{leftmargin=1.3em, itemsep=0pt, topsep=0pt}
+
+\pagestyle{empty}
+
+% ---------------------------------------------
+% Entorno auxiliar: envuelve cada sección en un
+% minipage propio para que NO se pueda partir
+% entre columnas dentro de multicols.
+% ---------------------------------------------
+\newenvironment{term}
+  {\begin{minipage}{\linewidth}}
+  {\end{minipage}\par}
+
+\begin{document}
+\begin{multicols}{2}
+
+\begin{term}
+\section*{DEFINICIONES BÁSICAS}
+\textbf{Núcleo:} $v$ tal que $T(v) = 0$.
+
+\textbf{ma($\lambda$):} Multiplicidad algebraica (raíces del pol. caract.).
+
+\textbf{mg($\lambda$):} Mult. geométrica ($\dim(N(A-\lambda I)) = n-\mathrm{rango}(A-\lambda I)$).
+
+\textbf{Teorema Conexión:} $1 \le mg(\lambda) \le ma(\lambda)$ para todo $\lambda$.
+
+\textbf{Invertibilidad y Det:} $\det(A)\neq 0 \iff$ Filas/Col L.I. $\iff N(A)=\{0\}$.
+
+\textbf{Autovalores:} $\lambda v = Av$ ($v\neq 0$) $\iff \det(A-\lambda I)=0$.
+\textbf{Pivote:} Primer elemento no nulo de una fila
+\end{term}
+
+\begin{term}
+\textbf{Cálculo Práctico de Base y Dimensión:}
+Sea $M = M_{EE}(T)$ de tamaño $m \times n$ (m filas, n col). Se lleva $M$ a su forma escalonada por Gauss.
+\begin{enumerate}
+\item $\dim(R(T)) = \mathrm{rango}(M) = \text{Cantidad de filas no nulas}$ (o columnas con pivote).
+\item \textbf{Base de $R(T)$:} Tomar las columnas de la matriz \textbf{original} $M$ que correspondan a las posiciones de los pivotes.
+\item $\dim(N(T)) = n - \mathrm{rango}(M) = \text{\# variables libres}$.
+\item \textbf{Base de $N(T)$:} Resolver el sistema homogéneo $M x = 0$ expresando las variables con pivote en función de las variables libres.
+\end{enumerate}
+\end{term}
+
+
+
+\begin{term}
+\section*{PRODUCTO INTERNO Y ORTOGONALIDAD}
+\textbf{P. Interno:} $\langle x,y\rangle$ es bilineal/simétrica/def. positiva.
+
+En $\mathbb{R}^n$: $\langle x,y\rangle = x^Ty$. En $\mathbb{C}^n$: $\langle x,y\rangle = x^Hy$.
+
+\textbf{Norma inducida:} $\|x\|_2 = \sqrt{\langle x,x\rangle}$. Prop: $\|x\|\ge 0$, $\|\alpha x\| = |\alpha|\|x\|$, y Desigualdad Triangular: $\|x+y\| \le \|x\|+\|y\|$.
+
+\textbf{Ortogonalidad:} $x \perp y \iff \langle x,y\rangle = 0$.
+
+\textbf{Subespacio Invariante:} $S \subseteq V$ es invariante bajo $T$ si $\forall v \in S, T(v) \in S$. (Ej: los autoespacios).
+\end{term}
+
+
+
+\begin{term}
+\section*{DESCOMPOSICIÓN LU ($A_{n\times n}$ SIN PIVOTEO)}
+\textbf{Requisito:} Todos los menores principales de $A$ deben ser inversibles.
+
+\begin{enumerate}
+\item $L = I$\quad $U = A$
+\item Para cada columna $i$ desde 1 hasta $n-1$:
+\begin{enumerate}
+\item Para cada fila $f$ desde $i+1$ hasta $n$:
+\begin{enumerate}
+\item $L_{fi} = \dfrac{U_{fi}}{U_{ii}}$
+\item Para cada columna $j$ desde $i$ hasta $n$: \\ $U_{fj} = U_{fj} - L_{fi}\cdot U_{ij}$
+\end{enumerate}
+\end{enumerate}
+\item Resultado: $A = L\cdot U$ ($L$ triang. inf, $U$ triang. sup).
+\end{enumerate}
+\end{term}
+
+\begin{term}
+\section*{DESCOMPOSICIÓN PLU ($A_{n\times n}$ CON PIVOTEO)}
+Evita divisiones por cero y minimiza el error numérico por redondeo.
+
+\begin{enumerate}
+\item $P=I$\quad $L=I$\quad $U=A$
+\item Para cada columna $i$ desde 1 hasta $n-1$:
+\begin{enumerate}
+\item Encontrar fila pivote $p \in [i,n]$ tal que $|U_{pi}|$ sea máximo.
+\item Intercambiar filas $i$ y $p$ en $U$ y en $P$.
+\item Intercambiar filas $i$ y $p$ en $L$ (únicamente de la col. 1 a $i-1$).
+\item Para cada fila $f$ desde $i+1$ hasta $n$:
+\begin{enumerate}
+\item $L_{fi} = \dfrac{U_{fi}}{U_{ii}}$
+\item Para cada col. $j$ desde $i$ hasta $n$: $U_{fj} = U_{fj} - L_{fi}\cdot U_{ij}$
+\end{enumerate}
+\end{enumerate}
+\item Resultado: $P\cdot A = L\cdot U$
+\end{enumerate}
+\end{term}
+
+\begin{term}
+\section*{DESCOMPOSICIÓN QR (GRAM-SCHMIDT)}
+\begin{enumerate}
+\item Denotar $A = \begin{pmatrix}v_1 & v_2 & \cdots & v_n\end{pmatrix}$ por sus columnas. \\ $Q = 0_{n\times n}$\quad $R = 0_{n\times n}$
+\item Para cada columna $i$ desde 1 hasta $n$:
+\begin{enumerate}
+\item $u_i = v_i - \sum_{k=1}^{i-1}(q_k^T\cdot v_i)\cdot q_k$
+\item $R_{ii} = \|u_i\|_2$
+\item $q_i = \dfrac{u_i}{R_{ii}}$
+\item Para cada fila $f$ desde 1 hasta $i-1$: $R_{fi} = q_f^T\cdot v_i$
+\end{enumerate}
+\item Asignar $Q = \begin{pmatrix}q_1 & q_2 & \cdots & q_n\end{pmatrix}$
+\item Resultado: $A = Q\cdot R$ ($Q$ ortogonal, $R$ triang. sup).
+\end{enumerate}
+\end{term}
+
+
+
+\begin{term}
+\section*{DIAGONALIZACIÓN}
+$A_{n\times n}$ es diagonalizable $\iff$ existe una base de $\mathbb{R}^n$ de autovectores $\iff mg(\lambda) = ma(\lambda)$ para todo $\lambda$ hallado.
+
+\begin{enumerate}
+\item Calcular Polinomio Característico: $p_A(\lambda) = \det(\lambda I - A) = 0$
+\item Hallar las raíces $\lambda_i$. Multiplicidad algebraica = ma.
+\item Para cada $\lambda$, buscar base del núcleo $N(A-\lambda I)$. Su dim = mg.
+\item Si $\sum mg = n$, armar $D = \mathrm{diag}(\lambda_1,\ldots,\lambda_n)$.
+\item Armar $P = \begin{pmatrix}v_1 & \cdots & v_n\end{pmatrix}$ colocando en columnas los autovectores en el mismo orden que sus respectivos $\lambda_i$ en $D$.
+\item Resultado: $A = PDP^{-1}$
+\end{enumerate}
+\end{term}
+
+\begin{term}
+\section*{SVD (VALORES SINGULARES) $A_{m\times n}$}
+\begin{enumerate}
+\item Calcular la matriz simétrica: $B = A^T\cdot A \in \mathbb{R}^{n\times n}$
+\item Encontrar autovalores $\lambda_i$ de $B$ y ordenarlos: $\lambda_1 \ge \lambda_2 \ge \cdots \ge \lambda_n \ge 0$. El número de $\lambda_i > 0$ determina el rango$(A) = r$.
+\item Hallar una base ortonormal de autovectores para $B \Rightarrow \{v_1,\ldots,v_n\}$. Armar $V = \begin{pmatrix}v_1 & \cdots & v_n\end{pmatrix}$.
+\item Construir $\Sigma \in \mathbb{R}^{m\times n}$ con $\Sigma_{ii} = \sigma_i = \sqrt{\lambda_i}$ para $i \le r$, el resto ceros. Los $\sigma_i$ son los valores singulares.
+\item Para las primeras $r$ columnas de $U$, calcular: $u_i = \dfrac{1}{\sigma_i}Av_i$.
+\item Completar $U$: Si $r < m$, hallar una base ortonormal para el núcleo $N(A^T)$ para obtener $\{u_{r+1},\ldots,u_m\}$.
+\item Armar $U = \begin{pmatrix}u_1 & \cdots & u_m\end{pmatrix} \in \mathbb{R}^{m\times m}$.
+\item Resultado: $A = U\cdot\Sigma\cdot V^T$ ($U,V$ ortogonales).
+\end{enumerate}
+\end{term}
+
+\begin{term}
+\section*{MÍNIMOS CUADRADOS Y PSEUDOINVERSA}
+Para sistemas incompatibles $Ax=b$ donde $A \in \mathbb{R}^{m\times n}$.
+
+\textbf{Ecuación Normal:} Minimiza $\|Ax-b\|_2^2 \Rightarrow A^TA\hat{x} = A^Tb$.
+
+Si las columnas de $A$ son L.I., $A^TA$ es inversible:
+$$\hat{x} = (A^TA)^{-1}A^Tb$$
+
+\textbf{Matriz Pseudoinversa de Moore-Penrose ($A^\dagger$):}
+\begin{itemize}[leftmargin=1.2em]
+\item Definición analítica mediante SVD: $A^\dagger = V\Sigma^\dagger U^T$, donde $\Sigma^\dagger \in \mathbb{R}^{n\times m}$ se obtiene transponiendo $\Sigma$ y reemplazando cada $\sigma_i > 0$ por $1/\sigma_i$.
+\item Si col. de $A$ son L.I. (rango completo por col): $A^\dagger = (A^TA)^{-1}A^T$.
+\item Solución general de mín. cuadrados: $\hat{x} = A^\dagger b$.
+\end{itemize}
+\end{term}
+
+
+
+\begin{term}
+\section*{MATRICES DE TRANSFORMACIÓN}
+Dada $T: V \to W$ y dos bases $B_1$ (de $V$) y $B_2$ (de $W$):
+
+La matriz $M_{B_2B_1}(T)$ (entra en $B_1$, sale en $B_2$) cumple:
+$$M_{B_2B_1}(T)\cdot[v]_{B_1} = [T(v)]_{B_2}$$
+
+Las columnas de $M_{B_2B_1}(T)$ son los vectores de $B_1$ transformados y expresados en las coordenadas de $B_2$.
+
+$E=(1,0,0),(0,1,0),(0,0,1)$
+
+\textbf{Casos Comunes:}
+\begin{itemize}[leftmargin=1.2em]
+\item $M_{EE}(T)$: Entra en Canónica, sale en Canónica. \\ $M_{EE}(T)\cdot v = T(v)$ (Sistemas directos)
+\item $M_{EB}(T)$: Entra en Canónica, sale en Base $B$. \\ $M_{EB}(T)\cdot v = [T(v)]_B$
+\item $M_{BB}(T)$: Entra en Base $B$, sale en Base $B$. \\ $M_{BB}(T)\cdot[v]_B = [T(v)]_B$
+\end{itemize}
+\end{term}
+
+\begin{term}
+\section*{REGLA DE RUFFINI}
+Dado un polinomio $P(x)=Ax^3+Bx^2+Cx+D$ y $a$ es una raíz, entonces se puede escribir de la siguiente manera
+$$\begin{array}{r|cccc}
+    & A & B & C & D \\
+  a &   & a \cdot A & a \cdot (B + aA) & \dots \\
+\hline
+    & A & (B + aA) & \dots & 0
+\end{array}$$
+Tal que $$P(x)=(x-a)(Ax^2+(B+aA)x+(C+aB+a^2A))$$
+\end{term}
+
+\begin{term}
+\section*{MENORES PRINCIPALES}
+Un menor principal $\Delta_i$ de $A$ es la determinante de la submatriz $i\times i$ superior izquierda
+\end{term}
+
+\begin{term}
+\section*{DETERMINANTE $2\times 2$}
+$$\begin{pmatrix}a & b\\ c & d\end{pmatrix} \Rightarrow \det() = ad-bc$$
+\end{term}
+
+\begin{term}
+\section*{DETERMINANTE $3\times 3$ - REGLA DE SARRUS}
+Para calcular el determinante de una matriz $A \in \mathbb{R}^{3\times3}$, se puede utilizar el método de Sarrus, el cual consiste en repetir las dos primeras filas debajo de la matriz (o las dos primeras columnas a la derecha) y operar los productos de las diagonales.
+\end{term}
+
+
+
+\begin{term}
+\section*{CÁLCULO DE COORDENADAS $[v]_B$}
+Para hallar las coordenadas de un vector $v$ en una base $B = \{b_1,b_2,\ldots,b_n\}$, se buscan los únicos escalares $\alpha_i$ tales que:
+$$\alpha_1b_1 + \alpha_2b_2 + \cdots + \alpha_nb_n = v$$
+
+El vector de coordenadas es: $[v]_B = \begin{pmatrix}\alpha_1 & \alpha_2 & \ldots & \alpha_n\end{pmatrix}^T$.
+
+\textbf{Método Matricial Práctico:} Se arma una matriz con los vectores de la base $B$ dispuestos en columnas (esta es la matriz de cambio de base de $B$ a canónica $E$, $M_{EB}(I)$) y se iguala al vector $v$ escrito en base canónica:
+$$M_{EB}(I)\cdot[v]_B = v \Rightarrow \begin{pmatrix}| & | & |\\ b_1 & b_2 & b_3\\ | & | & |\end{pmatrix}\begin{pmatrix}\alpha_1\\\alpha_2\\\alpha_3\end{pmatrix} = \begin{pmatrix}v_x\\v_y\\v_z\end{pmatrix}$$
+\end{term}
+
+\begin{term}
+\section*{CÁLCULO DE AUTOVALORES Y AUTOVECTORES}
+Dada una matriz cuadrada $A_{n\times n}$, los autovalores $\lambda$ y autovectores $v \neq 0$ cumplen $Av = \lambda v$.
+
+\textbf{Procedimiento Analítico:}
+\begin{enumerate}
+\item \textbf{Polinomio Característico:} Se plantea y calcula el determinante armando la ecuación:
+$$p_A(\lambda) = \det(A - \lambda I) = 0$$
+(Nota: Calcular $\det(\lambda I - A) = 0$ da exactamente las mismas raíces).
+\item \textbf{Encontrar Raíces:} Se resuelven las raíces del polinomio resultante. Los valores obtenidos $\{\lambda_1, \lambda_2, \ldots\}$ son los autovalores.
+\item \textbf{Multiplicidad Algebraica ($ma$):} Es la cantidad de veces que se repite un autovalor como raíz del polinomio.
+\item \textbf{Calcular los Autoespacios ($S_{\lambda}$):} Para cada $\lambda_i$ hallado, se busca el núcleo de la matriz modificada resolviendo el sistema homogéneo:
+$$(A - \lambda_i I)v = 0$$
+\item \textbf{Multiplicidad Geométrica ($mg$):} Es la dimensión del autoespacio asociado ($\dim(S_{\lambda})$). Se calcula rápido usando rangos:
+$$mg(\lambda_i) = n - \mathrm{rango}(A - \lambda_i I)$$
+\end{enumerate}
+
+\textbf{Atajos Teóricos de Examen:}
+\begin{itemize}[leftmargin=1.2em]
+\item \textbf{Matrices Triangulares/Diagonales:} Los autovalores son, directamente, los elementos de la diagonal principal.
+\item \textbf{Traza y Determinante:} 
+$$\sum_{i=1}^n \lambda_i = \mathrm{Tr}(A) \quad \text{y} \quad \prod_{i=1}^n \lambda_i = \det(A)$$
+Sirve para verificar rápido si metiste la pata sumando o multiplicando las raíces.
+\item \textbf{Matriz Singular:} $A$ no es inversible $\iff \lambda = 0$ es autovalor.
+\end{itemize}
+\end{term}
+
+\begin{term}
+\section*{CÁLCULO DE DIM DE $T:V\to W$}
+\begin{itemize}
+    \item $\dim(V):$ Dada $V=A\in\mathbb{R}^{n\times m}:\dim(V)=n\cdot m$
+    \item $\dim(N(T)):$ Es el número de variables libres del sistema $A\cdot x=0$
+    \item $\dim(R(T)):$ Es el número de filas no nulas de la matriz escalonada
+\end{itemize}
+$$\dim(V)=\dim(N(T))+\dim(R(T))$$
+$$\dim(R(T)) = \mathrm{rango}(M_{EE}(T))$$
+\end{term}
+
+\begin{term}
+\section*{SERIES Y TRANSFORMADAS DE FOURIER}
+\textbf{Serie Trigonométrica:}
+$$F(x) = \frac{a_0}{2} + \sum_{m=1}^{\infty} \left( a_m \cos(\omega_m x) + b_m \operatorname{sen}(\omega_m x) \right)$$
+\begin{itemize}[leftmargin=1.2em]
+\item $\omega_m = \dfrac{2\pi m}{L}$
+\item $\dfrac{a_0}{2} = \dfrac{1}{L} \int_{L} F(x) \, dx$
+\item $a_m = \dfrac{2}{L} \int_{L} F(x) \cos(\omega_m x) \, dx$
+\item $b_m = \dfrac{2}{L} \int_{L} F(x) \operatorname{sen}(\omega_m x) \, dx$
+\end{itemize}
+
+\textbf{Serie Exponencial:}
+$$F(x) = \sum_{m=-\infty}^{\infty} C_m e^{i \omega_m x}$$
+\begin{itemize}[leftmargin=1.2em]
+\item $C_m = \dfrac{a_m - i b_m}{2} = \dfrac{1}{L} \int_{L} F(x) e^{-i \omega_m x} \, dx$
+\end{itemize}
+
+\textbf{Forma de Laboratorio (Amplitud-Fase):}
+$$F(x) = P_0 + \sum_{m=1}^{\infty} P_m \cos(\omega_m x + \varphi_m)$$
+\begin{itemize}[leftmargin=1.2em]
+\item $P_0 = \dfrac{a_0}{2}$
+\item $P_m = \sqrt{a_m^2 + b_m^2}$
+\item $\tan(\varphi_m) = -\dfrac{b_m}{a_m}$
+\item $a_m \cos\theta + b_m \operatorname{sen}\theta = P_m \cos(\theta + \varphi_m)$
+\end{itemize}
+\end{term}
+
+\begin{term}
+\textbf{Otros teoremas de la Serie:}
+\begin{itemize}[leftmargin=1.2em]
+\item $F'(x) = \sum_{m=1}^{\infty} \left( \omega_m b_m \cos(\omega_m x) - \omega_m a_m \operatorname{sen}(\omega_m x) \right)$
+\item $\int_{0}^{x} F(t) \, dt = \dfrac{a_0 x}{2} + \sum_{m=1}^{\infty} \left( -\dfrac{b_m}{\omega_m} \cos(\omega_m x) + \dfrac{a_m}{\omega_m} \operatorname{sen}(\omega_m x) \right)$
+\end{itemize}
+
+\textbf{Teorema de Convergencia:}
+$$\frac{\lim_{x \to a^+} F(x) + \lim_{x \to a^-} F(x)}{2} = \text{conv}$$
+
+\textbf{Paridad y Simplificaciones:}
+\begin{itemize}[leftmargin=1.2em]
+\item $F$ es \textbf{par} si $F(t) = F(-t) \implies \int_{-a}^{a} = 2 \int_{0}^{a}$
+\item $F$ es \textbf{impar} si $F(t) = -F(-t) \implies \int_{-a}^{a} = 0$
+\item $\text{par} \cdot \text{par} = \text{par}, \quad \text{impar} \cdot \text{impar} = \text{par}, \quad \text{par} + \text{par} = \text{par}$
+\item $\text{par} \cdot \text{impar} = \text{impar}, \quad \text{impar} + \text{impar} = \text{impar}$
+\end{itemize}
+\end{term}
+
+\begin{term}
+\textbf{Transformada Continua:}
+\begin{itemize}[leftmargin=1.2em]
+\item $F(\omega) = \int_{-\infty}^{\infty} f(t) e^{-i\omega t} \, dt$
+\item $\tilde{f}(t) = \dfrac{1}{2\pi} \int_{-\infty}^{\infty} F(\omega) e^{i\omega t} \, d\omega \quad \longrightarrow \text{Inversa}$
+\item $|X(\omega)| = \sqrt{(\operatorname{Re}(X(\omega)))^2 + (\operatorname{Im}(X(\omega)))^2}$
+\item $\operatorname{arg} X(\omega) = \operatorname{arctan2}(\operatorname{Im}(X(\omega)), \operatorname{Re}(X(\omega)))$
+\end{itemize}
+
+\textbf{Transformada Discreta (Muestras):}
+\begin{itemize}[leftmargin=1.2em]
+\item $F(\omega) = \sum_{m=0}^{N-1} F[m] e^{-i m \omega t}$
+\item $N = 2 \cdot \text{máx frec.}$
+\item $W = e^{-i 2\pi / N} \quad \longrightarrow \text{Frecuencias en la señal}$
+\item $F[k] = \sum_{m=0}^{N-1} F[m] W_N^{km}$
+\item $F[m] = \dfrac{1}{N} \sum_{k=0}^{N-1} F[k] W_N^{-mk}$
+\end{itemize}
+\end{term}
+
+\end{multicols}
+
+\newpage
+
+
+\section*{PLU}
+\begin{multicols}{2}
+Sea la matriz original: $A = \begin{pmatrix}0&2&1\\1&1&2\\2&1&1\end{pmatrix}$.
+
+Inicializaciones: $P=I_3$, $L=I_3$, $U=A$.
+
+\textbf{Etapa 1 ($i=1$):}
+\begin{enumerate}
+\item Pivote: Máximo en col. 1, filas 1-3 $\Rightarrow \max(|0|,|1|,|2|)=2$ (fila 3). Fila pivote $p=3$.
+\item Pivoteo: Intercambiar fila 1 y 3 en $U$ y en $P$:
+$$U=\begin{pmatrix}2&1&1\\1&1&2\\0&2&1\end{pmatrix},\ P=\begin{pmatrix}0&0&1\\0&1&0\\1&0&0\end{pmatrix}$$
+\item Eliminación:
+\begin{itemize}[leftmargin=1.2em]
+\item Fila 2 ($f=2$): $L_{21}=\frac{U_{21}}{U_{11}}=\frac{1}{2}=0.5$. \\ $U_{2,:} \leftarrow U_{2,:}-0.5\cdot U_{1,:} = \begin{pmatrix}0&0.5&1.5\end{pmatrix}$.
+\item Fila 3 ($f=3$): $L_{31}=\frac{U_{31}}{U_{11}}=\frac{0}{2}=0$. \\ $U_{3,:} \leftarrow U_{3,:}-0\cdot U_{1,:} = \begin{pmatrix}0&2&1\end{pmatrix}$.
+\end{itemize}
+\end{enumerate}
+
+Estado intermedio:
+$$U=\begin{pmatrix}2&1&1\\0&0.5&1.5\\0&2&1\end{pmatrix},\ L=\begin{pmatrix}1&0&0\\0.5&1&0\\0&0&1\end{pmatrix}$$
+
+\textbf{Etapa 2 ($i=2$):}
+\begin{enumerate}
+\item Pivote: Máximo en col. 2, filas 2-3 $\Rightarrow \max(|0.5|,|2|)=2$ (fila 3). Fila pivote $p=3$.
+\item Pivoteo: Intercambiar fila 2 y 3 en $U$, $P$ y col. 1 de $L$:
+$$U=\begin{pmatrix}2&1&1\\0&2&1\\0&0.5&1.5\end{pmatrix},\ P=\begin{pmatrix}0&0&1\\1&0&0\\0&1&0\end{pmatrix}$$
+$$L=\begin{pmatrix}1&0&0\\0&1&0\\0.5&0&1\end{pmatrix}$$
+\item Eliminación:
+\begin{itemize}[leftmargin=1.2em]
+\item Fila 3 ($f=3$): $L_{32}=\frac{U_{32}}{U_{22}}=\frac{0.5}{2}=0.25$. \\ $U_{3,:} \leftarrow U_{3,:}-0.25\cdot U_{2,:} = \begin{pmatrix}0&0&1.25\end{pmatrix}$.
+\end{itemize}
+\end{enumerate}
+
+\textbf{Resultado Final:}
+$$L=\begin{pmatrix}1&0&0\\0&1&0\\0.5&0.25&1\end{pmatrix},\ U=\begin{pmatrix}2&1&1\\0&2&1\\0&0&1.25\end{pmatrix}$$
+
+\end{multicols}
+
+
+
+\section*{LU}
+\begin{multicols}{2}
+Sea la matriz original: $A = \begin{pmatrix}2&1&1\\4&4&3\\-2&3&1\end{pmatrix}$.
+
+Inicializaciones: $L=I_3$, $U=A$.
+
+\textbf{Etapa 1 ($i=1$):}
+\begin{enumerate}
+\item Eliminación Fila 2 ($f=2$):
+\begin{itemize}[leftmargin=1.2em]
+\item Multiplicador: $L_{21}=\frac{U_{21}}{U_{11}}=\frac{4}{2}=2$.
+\item Operación: $U_{2,:}\leftarrow U_{2,:}-2\cdot U_{1,:} = \begin{pmatrix}0&2&1\end{pmatrix}$.
+\end{itemize}
+\item Eliminación Fila 3 ($f=3$):
+\begin{itemize}[leftmargin=1.2em]
+\item Multiplicador: $L_{31}=\frac{U_{31}}{U_{11}}=\frac{-2}{2}=-1$.
+\item Operación: $U_{3,:}\leftarrow U_{3,:}-(-1)\cdot U_{1,:} = \begin{pmatrix}0&4&2\end{pmatrix}$.
+\end{itemize}
+\end{enumerate}
+
+Estado intermedio:
+$$U=\begin{pmatrix}2&1&1\\0&2&1\\0&4&2\end{pmatrix},\ L=\begin{pmatrix}1&0&0\\2&1&0\\-1&0&1\end{pmatrix}$$
+
+\textbf{Etapa 2 ($i=2$):}
+\begin{enumerate}
+\item Eliminación Fila 3 ($f=3$):
+\begin{itemize}[leftmargin=1.2em]
+\item Multiplicador: $L_{32}=\frac{U_{32}}{U_{22}}=\frac{4}{2}=2$.
+\item Operación: $U_{3,:}\leftarrow U_{3,:}-2\cdot U_{2,:} = \begin{pmatrix}0&0&0\end{pmatrix}$.
+\end{itemize}
+\end{enumerate}
+
+\textbf{Resultado Final:}
+$$L=\begin{pmatrix}1&0&0\\2&1&0\\-1&2&1\end{pmatrix},\ U=\begin{pmatrix}2&1&1\\0&2&1\\0&0&0\end{pmatrix}$$
+
+\textit{Nota:} Nótese que $\det(A)=0$, lo cual es perfectamente válido en LU siempre y cuando los pivotes intermedios $U_{ii}$ no sean nulos.
+
+\end{multicols}
+\newpage
+\section*{QR}
+\begin{multicols}{2}
+
+Sea $A = \begin{pmatrix}1&1\\1&0\\0&1\end{pmatrix}$ con columnas $v_1=\begin{pmatrix}1\\1\\0\end{pmatrix}$ y $v_2=\begin{pmatrix}1\\0\\1\end{pmatrix}$.
+
+\textbf{Columna 1 ($i=1$):}
+\begin{enumerate}
+\item $u_1 = v_1 = \begin{pmatrix}1\\1\\0\end{pmatrix}$.
+\item $R_{11} = \|u_1\|_2 = \sqrt{1^2+1^2+0^2} = \sqrt{2}$.
+\item $q_1 = \frac{u_1}{R_{11}} = \begin{pmatrix}\sqrt{\frac12}\\\sqrt{\frac12}\\0\end{pmatrix}$.
+\end{enumerate}
+
+\textbf{Columna 2 ($i=2$):}
+\begin{enumerate}
+\item $R_{12} = q_1^T\cdot v_2 = \sqrt{\frac12}\cdot1+\sqrt{\frac12}\cdot0+0\cdot1=\sqrt{\frac12}$.
+\item $u_2 = v_2 - R_{12}q_1 = \begin{pmatrix}1\\0\\1\end{pmatrix}-\sqrt{\frac12}\begin{pmatrix}\sqrt{\frac12}\\\sqrt{\frac12}\\0\end{pmatrix}=\begin{pmatrix}\frac12\\-\frac12\\1\end{pmatrix}$.
+\item $R_{22} = \|u_2\|_2 = \sqrt{(\frac12)^2+(-\frac12)^2+1^2}=\sqrt{\frac32}$.
+\item $q_2 = \frac{u_2}{R_{22}} = \sqrt{\frac23}\begin{pmatrix}\frac12\\-\frac12\\1\end{pmatrix}=\begin{pmatrix}\sqrt{\frac16}\\-\sqrt{\frac16}\\\sqrt{\frac26}\end{pmatrix}$.
+\end{enumerate}
+
+\textbf{Resultado Final:}
+$$Q=\begin{pmatrix}\sqrt{\frac12}&\sqrt{\frac16}\\\sqrt{\frac12}&-\sqrt{\frac16}\\0&\sqrt{\frac26}\end{pmatrix},\ R=\begin{pmatrix}\sqrt{2}&\sqrt{\frac12}\\0&\sqrt{\frac32}\end{pmatrix}$$
+
+\end{multicols}
+
+\section*{SVD}
+\begin{multicols}{2}
+Sea la matriz $A = \begin{pmatrix}3&0\\0&-2\end{pmatrix}$.
+
+\begin{enumerate}
+\item $B = A^TA = \begin{pmatrix}9&0\\0&4\end{pmatrix}$. \\ Autovalores ordenados: $\lambda_1=9$, $\lambda_2=4$.
+\item Valores singulares: $\sigma_1=\sqrt9=3$, $\sigma_2=\sqrt4=2$. \\ $\Sigma=\begin{pmatrix}3&0\\0&2\end{pmatrix}$.
+\item Autovectores de $B$ unitarios $\Rightarrow v_1=\begin{pmatrix}1\\0\end{pmatrix}$, $v_2=\begin{pmatrix}0\\1\end{pmatrix}$. \\ $V=\begin{pmatrix}1&0\\0&1\end{pmatrix} \Rightarrow V^T=\begin{pmatrix}1&0\\0&1\end{pmatrix}$.
+\end{enumerate}
+
+\begin{enumerate}
+\item Columnas de $U$: $u_i=\frac{1}{\sigma_i}Av_i$:
+\begin{itemize}[leftmargin=1.2em]
+\item $u_1=\frac13\begin{pmatrix}3&0\\0&-2\end{pmatrix}\begin{pmatrix}1\\0\end{pmatrix}=\begin{pmatrix}1\\0\end{pmatrix}$.
+\item $u_2=\frac12\begin{pmatrix}3&0\\0&-2\end{pmatrix}\begin{pmatrix}0\\1\end{pmatrix}=\begin{pmatrix}0\\-1\end{pmatrix}$.
+\end{itemize}
+\end{enumerate}
+
+Armando la matriz ortogonal de salida:
+$$U=\begin{pmatrix}1&0\\0&-1\end{pmatrix}$$
+
+\textbf{Resultado Final:} $A = U\Sigma V^T$
+\end{multicols}
+
+\section*{DIAGONALIZACIÓN}
+\begin{multicols}{2}
+Sea la matriz: $A = \begin{pmatrix}3&2\\0&1\end{pmatrix}$.
+
+\begin{enumerate}
+\item Polinomio Característico:
+$$p_A(\lambda) = \det(\lambda I - A) = (\lambda-3)(\lambda-1) = 0$$
+Autovalores obtenidos: $\lambda_1=3$, $\lambda_2=1$. \\
+Multiplicidades algebraicas: $ma(3)=1$, $ma(1)=1$.
+
+\item Autoespacio para $\lambda_1=3$: Buscar el núcleo de $(3I-A)$:
+$$3I-A=\begin{pmatrix}0&-2\\0&2\end{pmatrix} \Rightarrow \begin{pmatrix}0&-2\\0&0\end{pmatrix} \Rightarrow y=0$$
+La variable $x$ queda libre $\Rightarrow v_1=\begin{pmatrix}1\\0\end{pmatrix}$. \\
+Multiplicidad geométrica: $mg(3)=1$.
+
+\item Autoespacio para $\lambda_2=1$: Buscar el núcleo de $(1I-A)$:
+$$1I-A=\begin{pmatrix}-2&-2\\0&0\end{pmatrix} \Rightarrow x=-y$$
+Eligiendo $y=1 \Rightarrow v_2=\begin{pmatrix}-1\\1\end{pmatrix}$. \\
+Multiplicidad geométrica: $mg(1)=1$.
+
+\item Construcción de Matrices: Como $\forall\lambda, mg(\lambda)=ma(\lambda)$, $A$ es diagonalizable:
+$$D=\begin{pmatrix}3&0\\0&1\end{pmatrix},\ P=\begin{pmatrix}1&-1\\0&1\end{pmatrix}$$
+
+\item Cálculo de $P^{-1}$:
+$$P^{-1}=\frac{1}{(1)(1)-(-1)(0)}\begin{pmatrix}1&1\\0&1\end{pmatrix}=\begin{pmatrix}1&1\\0&1\end{pmatrix}$$
+\end{enumerate}
+
+\textbf{Resultado Final:} $A = PDP^{-1}$
+
+\end{multicols}
+
+\newpage
+
+\section*{CÁLCULO DE AUTOVALORES Y AUTOESPACIOS}
+\begin{multicols}{2}
+
+Sea la matriz cuadrada: $A = \begin{pmatrix} 2 & 3 \\ 0 & 4 \end{pmatrix}$.
+
+\textbf{1. Polinomio Característico:}
+Planteamos la ecuación $\det(A - \lambda I) = 0$:
+$$\det\begin{pmatrix} 2-\lambda & 3 \\ 0 & 4-\lambda \end{pmatrix} = 0$$
+
+Al ser una matriz de $2 \times 2$, el determinante es simplemente el producto de la diagonal principal menos la secundaria:
+$$(2 - \lambda)(4 - \lambda) - (3 \cdot 0) = 0$$
+$$\lambda^2 - 6\lambda + 8 = 0$$
+
+\textbf{2. Encontrar Raíces (Autovalores):}
+Resolviendo la ecuación cuadrática (o aplicando que al ser una matriz triangular, los autovalores están en la diagonal principal), obtenemos:
+$$\lambda_1 = 2, \quad \lambda_2 = 4$$
+Multiplicidades algebraicas: $ma(2) = 1$ y $ma(4) = 1$.
+
+\textbf{3. Autoespacio asociado a $\lambda_1 = 2$:}
+Buscamos los vectores en el núcleo resolviendo $(A - 2I)v = 0$:
+$$\begin{pmatrix} 2-2 & 3 \\ 0 & 4-2 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}$$
+$$\begin{pmatrix} 0 & 3 \\ 0 & 2 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies \begin{cases} 3y = 0 \\ 2y = 0 \end{cases} \implies y = 0$$
+
+La variable $x$ no tiene restricciones (es libre). Asignando $x = 1$, el primer autovector es:
+$$v_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$$
+El autoespacio es $S_{2} = \text{gen}\left\{\begin{pmatrix} 1 \\ 0 \end{pmatrix}\right\}$ y su multiplicidad geométrica es $mg(2) = 1$.
+
+\textbf{4. Autoespacio asociado a $\lambda_2 = 4$:}
+Buscamos los vectores en el núcleo resolviendo $(A - 4I)v = 0$:
+$$\begin{pmatrix} 2-4 & 3 \\ 0 & 4-4 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}$$
+$$\begin{pmatrix} -2 & 3 \\ 0 & 0 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix} \implies -2x + 3y = 0 \implies x = \frac{3}{2}y$$
+
+Dando a la variable libre $y$ el valor de $2$ (para evitar fracciones), obtenemos el segundo autovector:
+$$v_2 = \begin{pmatrix} 3 \\ 2 \end{pmatrix}$$
+El autoespacio es $S_{4} = \text{gen}\left\{\begin{pmatrix} 3 \\ 2 \end{pmatrix}\right\}$ y su multiplicidad geométrica es $mg(4) = 1$.
+
+\end{multicols}
+
+\section*{MATRICES ASOCIADAS A UNA TL}
+\begin{multicols}{2}
+
+Dada la TL $T: \mathbb{R}^3 \to \mathbb{R}^3 : T(x,y,z) = (2x+y, y-z, z+x)$ \\
+y la base $B = \{(0,0,1), (1,0,0), (1,-1,0)\}$. \\
+Sea $E = \{(1,0,0), (0,1,0), (0,0,1)\}$ la base canónica.
+
+\textbf{1. EJEMPLO $M_{EE}(T)$}
+\begin{itemize}[leftmargin=1.2em]
+\item $T(1,0,0) = (2(1)+0, 0-0, 0+1) = (2, 0, 1)$
+\item $T(0,1,0) = (2(0)+1, 1-0, 0+0) = (1, 1, 0)$
+\item $T(0,0,1) = (2(0)+0, 0-1, 1+0) = (0, -1, 1)$
+\end{itemize}
+
+$$M_{EE}(T) = \begin{pmatrix} 2 & 1 & 0 \\ 0 & 1 & -1 \\ 1 & 0 & 1 \end{pmatrix}$$
+
+\begin{term}
+\textbf{2. EJEMPLO $M_{EB}(T)$}
+\begin{itemize}[leftmargin=1.2em]
+\item $T(0,0,1) = (2(0)+0, 0-1, 1+0) = (0, -1, 1)$
+\item $T(1,0,0) = (2(1)+0, 0-0, 0+1) = (2, 0, 1)$
+\item $T(1,-1,0) = (2(1)-1, -1-0, 0+1) = (1, -1, 1)$
+\end{itemize}
+
+$$M_{EB}(T) = \begin{pmatrix} 0 & 2 & 1 \\ -1 & 0 & -1 \\ 1 & 1 & 1 \end{pmatrix}$$
+\end{term}
+
+\begin{term}
+\textbf{3. EJEMPLO $M_{BB}(T)$}
+$$\begin{pmatrix} 0 & 1 & 1 \\ 0 & 0 & -1 \\ 1 & 0 & 0 \end{pmatrix} \begin{pmatrix} \alpha_1 \\ \alpha_2 \\ \alpha_3 \end{pmatrix} = T(v_i)$$
+
+\begin{enumerate}
+\item \textbf{Para $T(v_1) = (0, -1, 1)$:}
+$$\begin{cases} \alpha_2 + \alpha_3 = 0 \\ -\alpha_3 = -1 \\ \alpha_1 = 1 \end{cases} \implies \begin{pmatrix} 1 \\ -1 \\ 1 \end{pmatrix}$$
+
+\item \textbf{Para $T(v_2) = (2, 0, 1)$:}
+$$\begin{cases} \alpha_2 + \alpha_3 = 2 \\ -\alpha_3 = 0 \implies \alpha_3 = 0 \implies \alpha_2 = 2 \\ \alpha_1 = 1 \end{cases} \implies \begin{pmatrix} 1 \\ 2 \\ 0 \end{pmatrix}$$
+
+\item \textbf{Para $T(v_3) = (1, -1, 1)$:}
+$$\begin{cases} \alpha_2 + \alpha_3 = 1 \\ -\alpha_3 = -1 \implies \alpha_3 = 1 \implies \alpha_2 = 0 \\ \alpha_1 = 1 \end{cases} \implies \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix}$$
+\end{enumerate}
+
+$$M_{BB}(T) = \begin{pmatrix} 1 & 1 & 1 \\ -1 & 2 & 0 \\ 1 & 0 & 1 \end{pmatrix}$$
+\end{term}
+
+\end{multicols}
+
+\end{document}
