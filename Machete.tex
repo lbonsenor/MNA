@@ -266,6 +266,14 @@ Sirve para verificar rápido si metiste la pata sumando o multiplicando las raí
 \end{term}
 
 \begin{term}
+    \section*{DISCRETIZACIÓN DEL DOMINIO}
+    Sea $u(a,t)=u(b,t)=0$ y una cantidad de nodos internos $n$
+    $$h=\Delta x=\frac{b-a}{n+1}$$
+    Ahí tenemos $n+2$ nodos de $a$ a $b$ en saltos de $h$ tal que $x_i=h\cdot i$
+    $$t_i=i\cdot\Delta t$$
+\end{term}
+
+\begin{term}
 \section*{CÁLCULO DE DIM DE $T:V\to W$}
 \begin{itemize}
     \item $\dim(V):$ Dada $V=A\in\mathbb{R}^{n\times m}:\dim(V)=n\cdot m$
@@ -341,7 +349,45 @@ $$\frac{\lim_{x \to a^+} F(x) + \lim_{x \to a^-} F(x)}{2} = \text{conv}$$
 \end{itemize}
 \end{term}
 
+
+\begin{term}
+    \section*{DIFERENCIAS FINITAS $u^n_i\approx u(x_i,t_n)$}
+    $$\textbf{T. Impl} (\leftarrow):\frac{\partial u}{\partial t}\bigg|^{j+1}_i = \frac{u_i^{j+1} - u_i^j}{\Delta t} + O(\Delta t)$$
+    $$\textbf{T. Expl} (\rightarrow): \frac{\partial u}{\partial t}\bigg|^j_i = \frac{u_i^{j+1} - u_i^j}{\Delta t} + O(\Delta t)$$
+    $$\textbf{X} (\leftrightarrow): \frac{\partial u}{\partial x}\bigg|^j_i = \frac{u_{i+1}^j - u_{i-1}^j}{2\Delta x} + O((\Delta x)^2)$$
+    $$\textbf{X} (\leftrightarrow):\frac{\partial^2 u}{\partial x^2}\bigg|^j_i = \frac{u_{i-1}^j - 2u_i^j + u_{i+1}^j}{(\Delta x)^2} + O((\Delta x)^2)$$
+\end{term}
+
 \end{multicols}
+
+\begin{term}
+    \section*{SISTEMA MATRICIAL IMPLICITO}
+    $$\begin{pmatrix}
+        1+2r & -r & 0 & 0 \\
+        -r & 1+2r & -r & 0 \\
+        0 & -r & 1+2r & -r \\
+        0 & 0 & -r & 1+2r
+    \end{pmatrix}
+    \begin{pmatrix} u_1^{j+1} \\ \vdots \\ \vdots \\ u_4^{j+1}\end{pmatrix}
+    =\begin{pmatrix} u^j_1\\\vdots\\\vdots\\u_4^j \end{pmatrix}+r\begin{pmatrix}
+        u^{j+1}_0\\0\\0\\u_{5}^{j+1}
+    \end{pmatrix}$$
+\end{term}
+
+\begin{term}
+    \section*{SISTEMA MATRICIAL EXPLICITO}
+    $$\begin{pmatrix} u^{j+1}_1\\\vdots\\\vdots\\u_4^{j+1} \end{pmatrix}-r\begin{pmatrix}
+        u^j_0\\0\\0\\u_5^j
+    \end{pmatrix}=
+    \begin{pmatrix}
+        1-2r & r & 0 & 0 \\
+        r & 1-2r & r & 0 \\
+        0 & r & 1-2r & r \\
+        0 & 0 & r & 1-2r
+    \end{pmatrix}
+    \begin{pmatrix} u_1^{j} \\ \vdots \\ \vdots \\ u_4^{j}\end{pmatrix}
+    $$
+\end{term}
 
 \newpage
 
@@ -590,6 +636,53 @@ $$\begin{cases} \alpha_2 + \alpha_3 = 1 \\ -\alpha_3 = -1 \implies \alpha_3 = 1 
 $$M_{BB}(T) = \begin{pmatrix} 1 & 1 & 1 \\ -1 & 2 & 0 \\ 1 & 0 & 1 \end{pmatrix}$$
 \end{term}
 
+\end{multicols}
+
+\newpage
+\section*{EJEMPLO: SERIE DE FOURIER TRIGONOMÉTRICA}
+\begin{multicols}{2}
+Sea la función periódica con período $L = 2\pi$ ($-\pi < x \le \pi$):
+$$F(x) = \begin{cases} -1 & \text{si } -\pi < x < 0 \\ 1 & \text{si } 0 \le x \le \pi \end{cases}$$
+Dado que $L = 2\pi \implies \omega_m = \frac{2\pi m}{2\pi} = m$.
+
+\textbf{1. Análisis de Paridad:}
+La función es \textbf{impar} ($F(-x) = -F(x)$). Por lo tanto, por simetría:
+$$a_0 = 0 \quad \text{y} \quad a_m = 0 \quad \forall m \ge 1$$
+
+\textbf{2. Cálculo de los coeficientes $b_m$:}
+$$b_m = \frac{2}{2\pi} \int_{-\pi}^{\pi} F(x) \operatorname{sen}(mx) \, dx$$
+Al ser el producto de dos funciones impares (= par):
+$$b_m = \frac{2}{\pi} \int_{0}^{\pi} (1) \operatorname{sen}(mx) \, dx = \frac{2}{\pi} \left[ -\frac{\cos(mx)}{m} \right]_{0}^{\pi}$$
+$$b_m = \frac{2}{m\pi} (1 - \cos(m\pi))$$
+
+Como $\cos(m\pi) = (-1)^m$:
+$$b_m = \begin{cases} \dfrac{4}{m\pi} & \text{si $m$ es impar} \\ 0 & \text{si $m$ es par} \end{cases}$$
+
+\textbf{Resultado de la Serie:}
+$$F(x) = \sum_{m=1,3,5,\dots}^{\infty} \frac{4}{m\pi} \operatorname{sen}(mx)$$
+\end{multicols}
+
+\section*{EJEMPLO: SERIE DE FOURIER EXPONENCIAL}
+\begin{multicols}{2}
+Sea la función periódica con período $L = 2$ (sobre $0 \le x < 2$):
+$$F(x) = e^x \implies \omega_m = \frac{2\pi m}{2} = \pi m$$
+
+\textbf{1. Cálculo de los coeficientes $C_m$:}
+$$C_m = \frac{1}{2} \int_{0}^{2} e^x e^{-i \pi m x} \, dx = \frac{1}{2} \int_{0}^{2} e^{x(1 - i\pi m)} \, dx$$
+
+Integrando directamente la exponencial compleja:
+$$C_m = \frac{1}{2} \left[ \frac{e^{x(1 - i\pi m)}}{1 - i\pi m} \right]_{0}^{2}$$
+$$C_m = \frac{1}{2(1 - i\pi m)} \left( e^{2(1 - i\pi m)} - e^0 \right)$$
+
+\textbf{2. Simplificación mediante Euler:}
+Notemos que $e^{-i 2\pi m} = \cos(2\pi m) - i\operatorname{sen}(2\pi m) = 1$.
+$$C_m = \frac{1}{2(1 - i\pi m)} \left( e^2 \cdot 1 - 1 \right) = \frac{e^2 - 1}{2(1 - i\pi m)}$$
+
+Multiplicando por el conjugado para limpiar el denominador:
+$$C_m = \frac{(e^2 - 1)(1 + i\pi m)}{2(1 + \pi^2 m^2)}$$
+
+\textbf{Resultado de la Serie:}
+$$F(x) = \sum_{m=-\infty}^{\infty} \frac{(e^2 - 1)(1 + i\pi m)}{2(1 + \pi^2 m^2)} e^{i \pi m x}$$
 \end{multicols}
 
 \end{document}
