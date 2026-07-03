@@ -287,35 +287,35 @@ $$\dim(R(T)) = \mathrm{rango}(M_{EE}(T))$$
 \begin{term}
 \section*{SERIES Y TRANSFORMADAS DE FOURIER}
 \textbf{Serie Trigonométrica:}
-$$F(x) = \frac{a_0}{2} + \sum_{m=1}^{\infty} \left( a_m \cos(\omega_m x) + b_m \operatorname{sen}(\omega_m x) \right)$$
+$$F(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty} \left( a_n \cos(\omega_n x) + b_n \operatorname{sen}(\omega_n x) \right)$$
 \begin{itemize}[leftmargin=1.2em]
-\item $\omega_m = \dfrac{2\pi m}{L}$
+\item $\omega_n = \dfrac{2\pi n}{L}$
 \item $\dfrac{a_0}{2} = \dfrac{1}{L} \int_{L} F(x) \, dx$
-\item $a_m = \dfrac{2}{L} \int_{L} F(x) \cos(\omega_m x) \, dx$
-\item $b_m = \dfrac{2}{L} \int_{L} F(x) \operatorname{sen}(\omega_m x) \, dx$
+\item $a_n = \dfrac{2}{L} \int_{L} F(x) \cos(\omega_n x) \, dx$
+\item $b_n = \dfrac{2}{L} \int_{L} F(x) \operatorname{sen}(\omega_n x) \, dx$
 \end{itemize}
 
 \textbf{Serie Exponencial:}
-$$F(x) = \sum_{m=-\infty}^{\infty} C_m e^{i \omega_m x}$$
+$$F(x) = \sum_{n=-\infty}^{\infty} C_n e^{i \omega_n x}$$
 \begin{itemize}[leftmargin=1.2em]
-\item $C_m = \dfrac{a_m - i b_m}{2} = \dfrac{1}{L} \int_{L} F(x) e^{-i \omega_m x} \, dx$
+\item $C_n = \dfrac{a_n - i b_n}{2} = \dfrac{1}{L} \int_{L} F(x) e^{-i \omega_n x} \, dx$
 \end{itemize}
 
 \textbf{Forma de Laboratorio (Amplitud-Fase):}
-$$F(x) = P_0 + \sum_{m=1}^{\infty} P_m \cos(\omega_m x + \varphi_m)$$
+$$F(x) = P_0 + \sum_{n=1}^{\infty} P_n \cos(\omega_n x + \varphi_n)$$
 \begin{itemize}[leftmargin=1.2em]
 \item $P_0 = \dfrac{a_0}{2}$
-\item $P_m = \sqrt{a_m^2 + b_m^2}$
-\item $\tan(\varphi_m) = -\dfrac{b_m}{a_m}$
-\item $a_m \cos\theta + b_m \operatorname{sen}\theta = P_m \cos(\theta + \varphi_m)$
+\item $P_n = \sqrt{a_n^2 + b_n^2}$
+\item $\tan(\varphi_n) = -\dfrac{b_n}{a_n}$
+\item $a_n \cos\theta + b_n \operatorname{sen}\theta = P_n \cos(\theta + \varphi_n)$
 \end{itemize}
 \end{term}
 
 \begin{term}
 \textbf{Otros teoremas de la Serie:}
 \begin{itemize}[leftmargin=1.2em]
-\item $F'(x) = \sum_{m=1}^{\infty} \left( \omega_m b_m \cos(\omega_m x) - \omega_m a_m \operatorname{sen}(\omega_m x) \right)$
-\item $\int_{0}^{x} F(t) \, dt = \dfrac{a_0 x}{2} + \sum_{m=1}^{\infty} \left( -\dfrac{b_m}{\omega_m} \cos(\omega_m x) + \dfrac{a_m}{\omega_m} \operatorname{sen}(\omega_m x) \right)$
+\item $F'(x) = \sum_{n=1}^{\infty} \left( \omega_n b_n \cos(\omega_n x) - \omega_n a_n \operatorname{sen}(\omega_n x) \right)$
+\item $\int_{0}^{x} F(t) \, dt = \dfrac{a_0 x}{2} + \sum_{n=1}^{\infty} \left( -\dfrac{b_n}{\omega_n} \cos(\omega_n x) + \dfrac{a_n}{\omega_n} \operatorname{sen}(\omega_n x) \right)$
 \end{itemize}
 
 \textbf{Teorema de Convergencia:}
@@ -361,7 +361,7 @@ $$\frac{\lim_{x \to a^+} F(x) + \lim_{x \to a^-} F(x)}{2} = \text{conv}$$
 \end{multicols}
 
 \begin{term}
-    \section*{SISTEMA MATRICIAL IMPLICITO}
+    \section*{SISTEMA MATRICIAL IMPLICITO: $r=\frac{\Delta t}{\Delta x^2}\leq\frac{1}{2}$}
     $$\begin{pmatrix}
         1+2r & -r & 0 & 0 \\
         -r & 1+2r & -r & 0 \\
@@ -375,7 +375,7 @@ $$\frac{\lim_{x \to a^+} F(x) + \lim_{x \to a^-} F(x)}{2} = \text{conv}$$
 \end{term}
 
 \begin{term}
-    \section*{SISTEMA MATRICIAL EXPLICITO}
+    \section*{SISTEMA MATRICIAL EXPLICITO $r=\frac{\Delta t}{\Delta x^2}\leq\frac{1}{2}$}
     $$\begin{pmatrix} u^{j+1}_1\\\vdots\\\vdots\\u_4^{j+1} \end{pmatrix}-r\begin{pmatrix}
         u^j_0\\0\\0\\u_5^j
     \end{pmatrix}=
@@ -684,5 +684,43 @@ $$C_m = \frac{(e^2 - 1)(1 + i\pi m)}{2(1 + \pi^2 m^2)}$$
 \textbf{Resultado de la Serie:}
 $$F(x) = \sum_{m=-\infty}^{\infty} \frac{(e^2 - 1)(1 + i\pi m)}{2(1 + \pi^2 m^2)} e^{i \pi m x}$$
 \end{multicols}
+
+\section*{DIFERENCIAS FINITAS IMPLÍCITAS (NEUMANN)}
+\begin{multicols}{2}
+Sea la ecuación: $\dfrac{\partial u}{\partial t} = \dfrac{\partial^2 u}{\partial x^2}$ con $u_x(0,t)=u_x(1,t)=0$.
+\textbf{Inicializaciones y Grilla:}
+\begin{itemize}[leftmargin=1.2em]
+    \item Nodos internos $n = 4 \implies \Delta x = \dfrac{1 - 0}{4 + 1} = 0.2$.
+\end{itemize}
+\textbf{Esquema General para Nodos Internos:}
+$$-r u_{i-1}^{j+1} + (1 + 2r)u_i^{j+1} - r u_{i+1}^{j+1} = u_i^j$$
+\begin{itemize}[leftmargin=1.2em]
+    \item En $x_0 = 0$: $\dfrac{u_1^{j+1} - u_{-1}^{j+1}}{2\Delta x} = 0 \implies u_{-1}^{j+1} = u_1^{j+1}$
+    \item En $x_5 = 1$: $\dfrac{u_6^{j+1} - u_4^{j+1}}{2\Delta x} = 0 \implies u_6^{j+1} = u_4^{j+1}$
+\end{itemize}
+Sustituyendo en las ecuaciones de los extremos:
+\begin{itemize}[leftmargin=1.2em]
+    \item Fila $i=0$: $(1 + 2r)u_0^{j+1} - 2r u_1^{j+1} = u_0^j$
+    \item Fila $i=5$: $-2r u_4^{j+1} + (1 + 2r)u_5^{j+1} = u_5^j$
+\end{itemize}\textbf{Condición Inicial ($j = 0$):}
+Evaluando $u(x,0) = x + 1$ en cada nodo $x_i$:$$u^0 = 
+\begin{pmatrix} 
+    1.0 & 1.2 & 1.4 & 1.6 & 1.8 & 2.0 
+\end{pmatrix}^T$$
+
+\end{multicols}
+\begin{term}
+\textbf{Resultado Final (Sistema Matricial $6 \times 6$):}
+$$\begin{pmatrix}
+1+2r & -2r & 0 & 0 & 0 & 0 \\
+-r & 1+2r & -r & 0 & 0 & 0 \\
+0 & -r & 1+2r & -r & 0 & 0 \\
+0 & 0 & -r & 1+2r & -r & 0 \\
+0 & 0 & 0 & -r & 1+2r & -r \\
+0 & 0 & 0 & 0 & -2r & 1+2r
+\end{pmatrix}
+\begin{pmatrix}
+u_0^{j+1} \\ u_1^{j+1} \\ u_2^{j+1} \\ u_3^{j+1} \\ u_4^{j+1} \\ u_5^{j+1}
+\end{pmatrix}\begin{pmatrix}u_0^j \\ u_1^j \\ u_2^j \\ u_3^j \\ u_4^j \\ u_5^j\end{pmatrix}$$\end{term}
 
 \end{document}
